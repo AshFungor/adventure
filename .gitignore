@@ -6,6 +6,9 @@ game/bin/*
 !game/bin/*.gdextension
 .sconsign*.dblite
 
+# Build directory
+build/
+
 # Binaries
 *.o
 *.os
