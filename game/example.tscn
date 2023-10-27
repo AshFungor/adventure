@@ -1,8 +1,72 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyhu0eljt6wsf"]
+[gd_scene load_steps=11 format=3 uid="uid://cyhu0eljt6wsf"]
 
-[ext_resource type="Texture2D" uid="uid://dbx66sovxd1" path="res://icon.svg" id="1_cwcqt"]
+[ext_resource type="Texture2D" uid="uid://beia5dl5icegd" path="res://art/Soldier_1/Walk.png" id="1_vmgsw"]
 
-[node name="Example" type="Example"]
-Amplitude = 100.0
-position = Vector2(0.0576544, 193.333)
-texture = ExtResource("1_cwcqt")
+[sub_resource type="AtlasTexture" id="AtlasTexture_gg3p2"]
+atlas = ExtResource("1_vmgsw")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6nauw"]
+atlas = ExtResource("1_vmgsw")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klies"]
+atlas = ExtResource("1_vmgsw")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7fbt"]
+atlas = ExtResource("1_vmgsw")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5n3d4"]
+atlas = ExtResource("1_vmgsw")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rp74"]
+atlas = ExtResource("1_vmgsw")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4x2xb"]
+atlas = ExtResource("1_vmgsw")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f6as3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gg3p2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6nauw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_klies")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7fbt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5n3d4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rp74")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4x2xb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2u0a"]
+size = Vector2(26, 68)
+
+[node name="Player" type="Player"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_f6as3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, 31)
+shape = SubResource("RectangleShape2D_h2u0a")
