@@ -27,7 +27,7 @@ namespace godot {
         godot::Input*            m_input {};
         godot::Vector2           m_screen_size {};
 
-        LIB_PROPERTY(real_t, speed, 400)
+        EXLIB_PROPERTY(real_t, speed, 400)
 
     protected:
         // Godot API to bind class members in game Editor.

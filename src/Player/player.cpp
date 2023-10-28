@@ -1,7 +1,7 @@
 #include "player.hpp"
 
 void godot::Player::_bind_methods() {
-    LIB_REGISTER_PROPERTY(speed, Player);
+    EXLIB_REGISTER_PROPERTY(speed, Player, godot::Variant::FLOAT)
 }
 
 void godot::Player::_ready() {

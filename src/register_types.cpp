@@ -22,7 +22,7 @@ void uninitialize_gdextension_types(godot::ModuleInitializationLevel p_level) {
 }
 
 // Initialization
-extern "C" GDExtensionBool GDE_EXPORT library_init(
+extern "C" GDExtensionBool GDE_EXPORT extension_lib_init(
     GDExtensionInterfaceGetProcAddress p_get_proc_address,
     GDExtensionClassLibraryPtr p_library,
     GDExtensionInitialization *r_initialization)

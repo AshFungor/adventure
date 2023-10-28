@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(lib LANGUAGES CXX)
+project(extension-lib LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,7 +11,7 @@ set(GODOT_GEN_INCLUDE_DIR "${GODOT_SOURCE_DIR}/build/gen/include")
 set(GODOT_INCLUDE_DIR "${GODOT_SOURCE_DIR}/include")
 set(GODOT_GDINTERFACE_DIR "${GODOT_SOURCE_DIR}/gdextension")
 
-set(LIB_SRC_DIR "${CMAKE_SOURCE_DIR}/src")
+set(EXTENSION_LIB_SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 
 set(POSTBUILD_HOOK "postbuild-hook.sh")
 
@@ -20,27 +20,27 @@ file(GLOB godot-cpp
 
 file(GLOB_RECURSE sources
     CONFIGURE_DEPENDS
-    "${CMAKE_SOURCE_DIR}/src/*.c"
-    "${CMAKE_SOURCE_DIR}/src/*.cpp")
+    "${EXTENSION_LIB_SRC_DIR}/*.c"
+    "${EXTENSION_LIB_SRC_DIR}/*.cpp")
 
 file(GLOB_RECURSE headers
     CONFIGURE_DEPENDS
-    "${CMAKE_SOURCE_DIR}/src/*.h"
-    "${CMAKE_SOURCE_DIR}/src/*.hpp")
+    "${EXTENSION_LIB_SRC_DIR}/*.h"
+    "${EXTENSION_LIB_SRC_DIR}/*.hpp")
 
-add_library(lib SHARED
+add_library(extension-lib SHARED
             ${sources}
             ${headers})
 
-target_include_directories(lib PRIVATE
-                           ${LIB_SRC_DIR}
+target_include_directories(extension-lib PRIVATE
+                           ${EXTENSION_LIB_SRC_DIR}
                            ${GODOT_INCLUDE_DIR}
                            ${GODOT_GEN_INCLUDE_DIR}
                            ${GODOT_GDINTERFACE_DIR})
-target_link_libraries(lib ${godot-cpp})
+target_link_libraries(extension-lib ${godot-cpp})
 
 file(COPY ${POSTBUILD_HOOK} DESTINATION ${CMAKE_BINARY_DIR})
 
-add_custom_command(TARGET lib
+add_custom_command(TARGET extension-lib
                    POST_BUILD
                    COMMAND ${CMAKE_BINARY_DIR}/${POSTBUILD_HOOK})
