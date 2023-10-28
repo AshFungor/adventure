@@ -1,11 +1,15 @@
  // File containing general macros
 #include <godot_cpp/core/class_db.hpp>
 
+ // Macro-function overload matcher. Arguments fill _1, _2, ..., _n
+ // positions, and the rest is dedicated to macro-function names.
+ // When called with k arguments (k <= n) names are pushed k positions
+ // behind and then the resulting name is acquired.
 #define __EXLIB_MATCH_MACRO_RP(_1, _2, _3, _4, name, ...) name
 
 #define EXLIB_REGISTER_PROPERTY(...)                                                               \
     __EXLIB_MATCH_MACRO_RP(__VA_ARGS__,                                                            \
-    __EXLIB_RP_WITH_4,                                                                               \
+    __EXLIB_RP_WITH_4,                                                                             \
     __EXLIB_RP_WITH_3)(__VA_ARGS__)
 
 #define __EXLIB_PROPERTY(t_type, name, default_value, setter, getter)                              \
