@@ -1,8 +1,12 @@
 #include "player.hpp"
 
-void godot::Player::_bind_methods() {}
+void godot::Player::_bind_methods() {
+    LIB_REGISTER_PROPERTY(speed, Player);
+}
 
 void godot::Player::_ready() {
+    auto&& input_map = godot::InputMap::get_singleton();
+    input_map->load_from_project_settings();
     m_animated_sprite = get_node<godot::AnimatedSprite2D>("AnimatedSprite2D");
     m_collision_shape = get_node<godot::CollisionShape2D>("CollisionShape2D");
     m_input = godot::Input::get_singleton();

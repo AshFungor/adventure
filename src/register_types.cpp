@@ -4,6 +4,7 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
+#include <godot_cpp/classes/input_map.hpp>
 
 void initialize_gdextension_types(godot::ModuleInitializationLevel p_level)
 {
@@ -21,7 +22,7 @@ void uninitialize_gdextension_types(godot::ModuleInitializationLevel p_level) {
 }
 
 // Initialization
-extern "C" GDExtensionBool GDE_EXPORT example_library_init(
+extern "C" GDExtensionBool GDE_EXPORT library_init(
     GDExtensionInterfaceGetProcAddress p_get_proc_address,
     GDExtensionClassLibraryPtr p_library,
     GDExtensionInitialization *r_initialization)

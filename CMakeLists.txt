@@ -12,7 +12,6 @@ set(GODOT_INCLUDE_DIR "${GODOT_SOURCE_DIR}/include")
 set(GODOT_GDINTERFACE_DIR "${GODOT_SOURCE_DIR}/gdextension")
 
 set(LIB_SRC_DIR "${CMAKE_SOURCE_DIR}/src")
-set(LIB_HEADERS_DIR "${LIB_SRC_DIR}/example")
 
 set(POSTBUILD_HOOK "postbuild-hook.sh")
 
@@ -34,7 +33,7 @@ add_library(lib SHARED
             ${headers})
 
 target_include_directories(lib PRIVATE
-                           ${LIB_HEADERS_DIR}
+                           ${LIB_SRC_DIR}
                            ${GODOT_INCLUDE_DIR}
                            ${GODOT_GEN_INCLUDE_DIR}
                            ${GODOT_GDINTERFACE_DIR})
