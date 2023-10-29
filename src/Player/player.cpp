@@ -5,10 +5,7 @@ void godot::Player::_bind_methods() {
 }
 
 void godot::Player::_enter_tree() {
-    // Should be moved somewhere else
-    auto&& input_map = godot::InputMap::get_singleton();
     auto&& root_scene = get_tree();
-    input_map->load_from_project_settings();
     if (!has_node(c_animated_sprite.data())) {
         m_animated_sprite = std::make_unique<godot::AnimatedSprite2D>(AnimatedSprite2D{});
         // This works for some reason, Editor allows to change sprites.
@@ -56,6 +53,8 @@ void godot::Player::_process(const double p_delta) {
     } else {
         m_animated_sprite->stop();
     }
+
+    m_animated_sprite->set_flip_h(velocity.x < 0);
 
     auto position = get_position();
     position += velocity * static_cast<real_t>(p_delta);

@@ -11,8 +11,11 @@ void initialize_gdextension_types(godot::ModuleInitializationLevel p_level)
     if (p_level != godot::MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
     }
-
     godot::ClassDB::register_class<godot::Player>();
+
+    // All initialization goes here.
+    auto&& input_map = godot::InputMap::get_singleton();
+    input_map->load_from_project_settings();
 }
 
 void uninitialize_gdextension_types(godot::ModuleInitializationLevel p_level) {

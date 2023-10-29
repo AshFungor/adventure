@@ -27,8 +27,8 @@ namespace godot {
         const std::string c_collision_shape_name {"CollisionShape"};
         const std::string c_animated_sprite {"AnimatedSprite"};
 
-        godot::Input*            m_input {};
-        godot::Vector2           m_screen_size {};
+        godot::Input*                     m_input {};
+        godot::Vector2                    m_screen_size {};
         std::unique_ptr<AnimatedSprite2D> m_animated_sprite {nullptr};
         std::unique_ptr<CollisionShape2D> m_collision_shape {nullptr};
 

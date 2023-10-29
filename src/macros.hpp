@@ -20,7 +20,7 @@
     private:
 
 #define __EXLIB_RP_WITH_3(name, owner, g_type)                                                     \
-    __EXLIB_REGISTER_PROPERTY_3(name, owner, g_type, set ## name, get ## name)
+    __EXLIB_REGISTER_PROPERTY_3(name, owner, g_type, _set_ ## name, _get_ ## name)
 
 #define __EXLIB_REGISTER_PROPERTY_3(name, owner, g_type, setter, getter)                           \
     godot::ClassDB::bind_method(D_METHOD(#getter),                                                 \
@@ -32,4 +32,4 @@
         #setter, #getter);
 
 #define EXLIB_PROPERTY(t_type, name, default_value)                                                \
-    __EXLIB_PROPERTY(t_type, name, default_value, set ## name, get ## name)
+    __EXLIB_PROPERTY(t_type, name, default_value, _set_ ## name, _get_ ## name)
