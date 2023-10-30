@@ -8,9 +8,6 @@ void godot::Player::_enter_tree() {
     auto&& root_scene = get_tree();
     if (!has_node(c_animated_sprite.data())) {
         m_animated_sprite = std::make_unique<godot::AnimatedSprite2D>(AnimatedSprite2D{});
-        // This works for some reason, Editor allows to change sprites.
-        SpriteFrames frames {};
-        m_animated_sprite->set_sprite_frames(&frames);
         m_animated_sprite->set_name(c_animated_sprite.data());
         add_child(m_animated_sprite.get());
         m_animated_sprite->set_owner(root_scene->get_edited_scene_root());
@@ -19,6 +16,11 @@ void godot::Player::_enter_tree() {
         m_animated_sprite.reset(get_node<godot::AnimatedSprite2D>(c_animated_sprite.data()));
     }
     end_node_init_1:
+    // This works for some reason, Editor allows to change sprites.
+    if (!m_animated_sprite->get_sprite_frames().ptr()) {
+        SpriteFrames frames {};
+        m_animated_sprite->set_sprite_frames(&frames);
+    }
     if (!has_node(c_collision_shape_name.data())) {
         m_collision_shape = std::make_unique<godot::CollisionShape2D>(CollisionShape2D{});
         m_collision_shape->set_name(c_collision_shape_name.data());
@@ -49,12 +51,14 @@ void godot::Player::_process(const double p_delta) {
         // We need to normalize velocity, so that diagonal movement
         // will be equal to movement on an axis.
         velocity = velocity.normalized() * speed;
-        m_animated_sprite->play();
+        if (velocity.x > 0) {
+            m_animated_sprite->play(c_walking_right_animation.data());
+        } else {
+            m_animated_sprite->play(c_walking_left_animation.data());
+        }
     } else {
-        m_animated_sprite->stop();
+        m_animated_sprite->play(c_idle_animation.data());
     }
-
-    m_animated_sprite->set_flip_h(velocity.x < 0);
 
     auto position = get_position();
     position += velocity * static_cast<real_t>(p_delta);

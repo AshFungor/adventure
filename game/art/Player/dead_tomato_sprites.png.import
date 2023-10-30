@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dn7681fyce3m2"
-path="res://.godot/imported/meme_boy.png-d0dee76ed61d407fbd64354fc3a6fc58.ctex"
+uid="uid://cuuoyjoy811ky"
+path="res://.godot/imported/dead_tomato_sprites.png-5ca20b6fb239bb3fa9fdc6edecf64f7e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/Player/meme_boy.png"
-dest_files=["res://.godot/imported/meme_boy.png-d0dee76ed61d407fbd64354fc3a6fc58.ctex"]
+source_file="res://art/Player/dead_tomato_sprites.png"
+dest_files=["res://.godot/imported/dead_tomato_sprites.png-5ca20b6fb239bb3fa9fdc6edecf64f7e.ctex"]
 
 [params]
 

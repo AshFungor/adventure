@@ -1,46 +1,109 @@
-[gd_scene load_steps=7 format=3 uid="uid://cyhu0eljt6wsf"]
+[gd_scene load_steps=16 format=3 uid="uid://cyhu0eljt6wsf"]
 
-[ext_resource type="Texture2D" uid="uid://dn7681fyce3m2" path="res://art/Player/meme_boy.png" id="1_lmoif"]
+[ext_resource type="Texture2D" uid="uid://3p1vr23udgkn" path="res://art/Player/dead_tomato_idle.png" id="1_ievnc"]
+[ext_resource type="Texture2D" uid="uid://3cp23wqorelb" path="res://art/Player/dead_tomato_walking_left.png" id="2_nfmtd"]
+[ext_resource type="Texture2D" uid="uid://dmlbw1ekbo2ky" path="res://art/Player/dead_tomato_walking_right.png" id="3_jkvp7"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_otlit"]
-atlas = ExtResource("1_lmoif")
-region = Rect2(0, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_di33t"]
+atlas = ExtResource("1_ievnc")
+region = Rect2(0, 0, 288, 288)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ndw2h"]
-atlas = ExtResource("1_lmoif")
-region = Rect2(64, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_xx31k"]
+atlas = ExtResource("1_ievnc")
+region = Rect2(288, 0, 288, 288)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cqk7o"]
-atlas = ExtResource("1_lmoif")
-region = Rect2(128, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tu2m"]
+atlas = ExtResource("2_nfmtd")
+region = Rect2(0, 0, 288, 288)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_snfge"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qidv3"]
+atlas = ExtResource("2_nfmtd")
+region = Rect2(288, 0, 288, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vbak"]
+atlas = ExtResource("2_nfmtd")
+region = Rect2(576, 0, 288, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58twd"]
+atlas = ExtResource("2_nfmtd")
+region = Rect2(864, 0, 288, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xpgb7"]
+atlas = ExtResource("3_jkvp7")
+region = Rect2(0, 0, 288, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3qugs"]
+atlas = ExtResource("3_jkvp7")
+region = Rect2(288, 0, 288, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8si1x"]
+atlas = ExtResource("3_jkvp7")
+region = Rect2(576, 0, 288, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ke3oq"]
+atlas = ExtResource("3_jkvp7")
+region = Rect2(864, 0, 288, 288)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jb5or"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_otlit")
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_di33t")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ndw2h")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cqk7o")
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_xx31k")
 }],
 "loop": true,
-"name": &"default",
-"speed": 5.0
+"name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tu2m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qidv3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vbak")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58twd")
+}],
+"loop": true,
+"name": &"walking_left",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xpgb7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3qugs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8si1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ke3oq")
+}],
+"loop": true,
+"name": &"walking_right",
+"speed": 10.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f4i2h"]
-size = Vector2(128, 128)
+size = Vector2(250, 280)
 
 [node name="CoreScene" type="Node2D"]
 
 [node name="Player" type="Player" parent="."]
-position = Vector2(2, 0)
+position = Vector2(0, 2)
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="Player"]
-sprite_frames = SubResource("SpriteFrames_snfge")
+sprite_frames = SubResource("SpriteFrames_jb5or")
+animation = &"walking_right"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="Player"]
+position = Vector2(-3, 7)
 shape = SubResource("RectangleShape2D_f4i2h")

@@ -27,6 +27,10 @@ namespace godot {
         const std::string c_collision_shape_name {"CollisionShape"};
         const std::string c_animated_sprite {"AnimatedSprite"};
 
+        const std::string c_walking_right_animation {"walking_right"};
+        const std::string c_walking_left_animation {"walking_left"};
+        const std::string c_idle_animation {"idle"};
+
         godot::Input*                     m_input {};
         godot::Vector2                    m_screen_size {};
         std::unique_ptr<AnimatedSprite2D> m_animated_sprite {nullptr};
