@@ -33,3 +33,7 @@
 
 #define EXLIB_PROPERTY(t_type, name, default_value)                                                \
     __EXLIB_PROPERTY(t_type, name, default_value, _set_ ## name, _get_ ## name)
+
+#define EXLIB_REGISTER_CLASS(name)                                                                 \
+    godot::ClassDB::register_class<godot::name>();
+

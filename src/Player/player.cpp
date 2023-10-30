@@ -39,7 +39,7 @@ void godot::Player::_ready() {
     m_screen_size = get_viewport_rect().size;
 }
 
-void godot::Player::_process(const double p_delta) {
+void godot::Player::_physics_process(const double p_delta) {
     godot::Vector2 velocity = {0, 0};
 
     velocity.x = m_input->get_action_strength("move_right")

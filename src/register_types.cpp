@@ -1,4 +1,6 @@
 #include "Player/player.hpp"
+#include "Arms/arms.hpp"
+#include "macros.hpp"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
@@ -11,7 +13,9 @@ void initialize_gdextension_types(godot::ModuleInitializationLevel p_level)
     if (p_level != godot::MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
     }
-    godot::ClassDB::register_class<godot::Player>();
+
+    EXLIB_REGISTER_CLASS(Player)
+    EXLIB_REGISTER_CLASS(Arms)
 
     // All initialization goes here.
     auto&& input_map = godot::InputMap::get_singleton();

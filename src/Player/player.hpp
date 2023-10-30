@@ -46,7 +46,7 @@ namespace godot {
         void _init() {}
         void _ready() override;
         void _enter_tree() override;
-        void _process(const double p_delta) override;
+        void _physics_process(const double p_delta) override;
         void start(const godot::Vector2 p_position);
         void _on_body_entered(std::unique_ptr<godot::Node2D> _body);
 

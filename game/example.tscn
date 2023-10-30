@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://cyhu0eljt6wsf"]
+[gd_scene load_steps=20 format=3 uid="uid://cyhu0eljt6wsf"]
 
 [ext_resource type="Texture2D" uid="uid://3p1vr23udgkn" path="res://art/Player/dead_tomato_idle.png" id="1_ievnc"]
 [ext_resource type="Texture2D" uid="uid://3cp23wqorelb" path="res://art/Player/dead_tomato_walking_left.png" id="2_nfmtd"]
 [ext_resource type="Texture2D" uid="uid://dmlbw1ekbo2ky" path="res://art/Player/dead_tomato_walking_right.png" id="3_jkvp7"]
+[ext_resource type="Texture2D" uid="uid://4tsm4d10spds" path="res://art/GunsPack/Guns/AK47.png" id="4_ngq5n"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_di33t"]
 atlas = ExtResource("1_ievnc")
@@ -95,6 +96,24 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f4i2h"]
 size = Vector2(250, 280)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgsm1"]
+atlas = ExtResource("4_ngq5n")
+region = Rect2(0, 0, 288, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r5bff"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgsm1")
+}],
+"loop": true,
+"name": &"AK47",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bawru"]
+size = Vector2(281.5, 109)
+
 [node name="CoreScene" type="Node2D"]
 
 [node name="Player" type="Player" parent="."]
@@ -102,8 +121,21 @@ position = Vector2(0, 2)
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="Player"]
 sprite_frames = SubResource("SpriteFrames_jb5or")
-animation = &"walking_right"
+animation = &"idle"
+frame_progress = 0.0119876
 
 [node name="CollisionShape" type="CollisionShape2D" parent="Player"]
 position = Vector2(-3, 7)
 shape = SubResource("RectangleShape2D_f4i2h")
+
+[node name="Arms" type="Arms" parent="Player"]
+position = Vector2(5, 83)
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="Player/Arms"]
+position = Vector2(4, 2)
+sprite_frames = SubResource("SpriteFrames_r5bff")
+animation = &"AK47"
+
+[node name="Shape" type="CollisionShape2D" parent="Player/Arms"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_bawru")
