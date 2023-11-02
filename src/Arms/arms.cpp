@@ -58,4 +58,5 @@ void godot::Arms::_physics_process(const double delta) {
 godot::Arms::~Arms() {
     m_animated_sprite.release();
     m_shape.release();
+    m_input.release();
 }

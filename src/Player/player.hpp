@@ -15,6 +15,7 @@
 #include <godot_cpp/classes/input_map.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/classes/sprite_frames.hpp>
+#include <godot_cpp/classes/engine.hpp>
 
 #pragma once
 
@@ -24,7 +25,7 @@ namespace godot {
         // Godot wrapper for inheritance.
         GDCLASS(Player, godot::Area2D)
 
-        const std::string c_collision_shape_name {"CollisionShape"};
+        const std::string c_collision_shape {"CollisionShape"};
         const std::string c_animated_sprite {"AnimatedSprite"};
 
         const std::string c_walking_right_animation {"walking_right"};
@@ -35,6 +36,7 @@ namespace godot {
         godot::Vector2                    m_screen_size {};
         std::unique_ptr<AnimatedSprite2D> m_animated_sprite {nullptr};
         std::unique_ptr<CollisionShape2D> m_collision_shape {nullptr};
+        bool                              m_editor {false};
 
         EXLIB_PROPERTY(real_t, speed, 400)
 
@@ -45,11 +47,10 @@ namespace godot {
     public:
         void _init() {}
         void _ready() override;
-        void _enter_tree() override;
         void _physics_process(const double p_delta) override;
         void start(const godot::Vector2 p_position);
         void _on_body_entered(std::unique_ptr<godot::Node2D> _body);
-
+        Player();
         ~Player();
     };
 

@@ -18,8 +18,6 @@ void initialize_gdextension_types(godot::ModuleInitializationLevel p_level)
     EXLIB_REGISTER_CLASS(Arms)
 
     // All initialization goes here.
-    auto&& input_map = godot::InputMap::get_singleton();
-    input_map->load_from_project_settings();
 }
 
 void uninitialize_gdextension_types(godot::ModuleInitializationLevel p_level) {

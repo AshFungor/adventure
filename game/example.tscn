@@ -111,8 +111,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bawru"]
-size = Vector2(281.5, 109)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5xliy"]
 
 [node name="CoreScene" type="Node2D"]
 
@@ -130,6 +129,7 @@ shape = SubResource("RectangleShape2D_f4i2h")
 
 [node name="Arms" type="Arms" parent="Player"]
 position = Vector2(5, 83)
+rotation = -10.512
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="Player/Arms"]
 position = Vector2(4, 2)
@@ -138,4 +138,4 @@ animation = &"AK47"
 
 [node name="Shape" type="CollisionShape2D" parent="Player/Arms"]
 position = Vector2(0, -2)
-shape = SubResource("RectangleShape2D_bawru")
+shape = SubResource("RectangleShape2D_5xliy")
