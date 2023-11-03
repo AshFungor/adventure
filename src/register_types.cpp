@@ -1,7 +1,13 @@
+// Local
 #include "Player/player.hpp"
 #include "Arms/arms.hpp"
 #include "macros.hpp"
 
+// Logging
+#include <plog/Log.h>
+#include <plog/Initializers/RollingFileInitializer.h>
+
+// Godot
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>

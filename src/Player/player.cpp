@@ -13,6 +13,7 @@ godot::Player::Player() : m_editor {Engine::get_singleton()->is_editor_hint()}
 }
 
 void godot::Player::_ready() {
+    EXLIB_EDITOR_SAFEGUARD()
     auto&& root_scene = get_tree();
     // Adjust pointers to child nodes.
     if (has_node(c_animated_sprite.data())) {
@@ -34,7 +35,6 @@ void godot::Player::_ready() {
 }
 
 void godot::Player::_physics_process(const double p_delta) {
-    if (m_editor) return;
 
     godot::Vector2 velocity = {0, 0};
 

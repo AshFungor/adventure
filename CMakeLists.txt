@@ -12,8 +12,9 @@ set(GODOT_INCLUDE_DIR "${GODOT_SOURCE_DIR}/include")
 set(GODOT_GDINTERFACE_DIR "${GODOT_SOURCE_DIR}/gdextension")
 
 set(EXTENSION_LIB_SRC_DIR "${CMAKE_SOURCE_DIR}/src")
-
 set(POSTBUILD_HOOK "postbuild-hook.sh")
+
+find_package(plog REQUIRED)
 
 file(GLOB godot-cpp
     "${GODOT_BINARY_DIR}/*godot-cpp*")
@@ -37,7 +38,9 @@ target_include_directories(extension-lib PRIVATE
                            ${GODOT_INCLUDE_DIR}
                            ${GODOT_GEN_INCLUDE_DIR}
                            ${GODOT_GDINTERFACE_DIR})
-target_link_libraries(extension-lib ${godot-cpp})
+
+target_link_libraries(extension-lib PRIVATE ${godot-cpp})
+target_link_libraries(extension-lib PRIVATE plog::plog)
 
 file(COPY ${POSTBUILD_HOOK} DESTINATION ${CMAKE_BINARY_DIR})
 

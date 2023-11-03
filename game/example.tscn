@@ -129,7 +129,6 @@ shape = SubResource("RectangleShape2D_f4i2h")
 
 [node name="Arms" type="Arms" parent="Player"]
 position = Vector2(5, 83)
-rotation = -10.512
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="Player/Arms"]
 position = Vector2(4, 2)
