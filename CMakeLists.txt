@@ -14,6 +14,8 @@ set(GODOT_GDINTERFACE_DIR "${GODOT_SOURCE_DIR}/gdextension")
 set(EXTENSION_LIB_SRC_DIR "${CMAKE_SOURCE_DIR}/src")
 set(POSTBUILD_HOOK "postbuild-hook.sh")
 
+add_compile_definitions(EXLIB_BUILD_DIR="${CMAKE_BINARY_DIR}")
+
 find_package(plog REQUIRED)
 
 file(GLOB godot-cpp

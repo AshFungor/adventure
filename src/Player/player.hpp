@@ -1,5 +1,6 @@
 // Local
 #include "macros.hpp"
+#include "Arms/arms.hpp"
 
 // STD headers.
 #include <memory>
@@ -27,15 +28,19 @@ namespace godot {
 
         const std::string c_collision_shape {"CollisionShape"};
         const std::string c_animated_sprite {"AnimatedSprite"};
+        const std::string c_arms            {"Arms"};
 
         const std::string c_walking_right_animation {"walking_right"};
         const std::string c_walking_left_animation {"walking_left"};
         const std::string c_idle_animation {"idle"};
+        const std::string c_walking_right_backwards_animation {"walking_right_backwards"};
+        const std::string c_walking_left_backwards_animation {"walking_left_backwards"};
 
         godot::Input*                     m_input {};
         godot::Vector2                    m_screen_size {};
         std::unique_ptr<AnimatedSprite2D> m_animated_sprite {nullptr};
         std::unique_ptr<CollisionShape2D> m_collision_shape {nullptr};
+        std::unique_ptr<godot::Arms>      m_arms {};
         bool                              m_editor {false};
 
         EXLIB_PROPERTY(real_t, speed, 400)

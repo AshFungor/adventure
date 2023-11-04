@@ -6,7 +6,7 @@ void godot::Arms::_bind_methods() {
 
 godot::Arms::Arms() : m_editor {Engine::get_singleton()->is_editor_hint()}
 {
-    plog::init(plog::Severity::info, EXLIB_LOCAL_BUILD_DIR"/log.txt", 100'000, 3);
+    plog::init(plog::Severity::info, EXLIB_BUILD_DIR"/log.txt", 100'000, 3);
     m_animated_sprite = std::make_unique<AnimatedSprite2D>
         (AnimatedSprite2D{});
     m_animated_sprite->set_name(c_animated_sprite.data());
@@ -39,10 +39,9 @@ double godot::Arms::get_rotation_angle(godot::Vector2 base, godot::Vector2 targe
     double k {0}, arctg {0};
     if (base.x - target.x != 0) {
         // Get coefficient k according to Kramer's rule
-        k = (base.y - target.y) / (base.x - target.y);
+        k = (base.y - target.y) / (base.x - target.x);
         arctg = std::atan(k);
     }
-    if (base.x > target.x) arctg -= M_PI;
     return arctg;
 }
 
@@ -53,21 +52,20 @@ void godot::Arms::_physics_process(const double delta) {
     auto&& global_pos_mouse = get_viewport()->get_mouse_position();
     auto&& rotation_angle = get_rotation_angle(global_pos_base,
                                                global_pos_mouse);
-    PLOG_INFO << "rotation_angle: " << rotation_angle;
-    if (std::abs(rotation_angle) > M_PI / 2) {
+    if (global_pos_base.x > global_pos_mouse.x) {
         sprite_rotation = RelativeRot::left;
-        m_animated_sprite->set_flip_v(true);
-        rotation_angle = std::clamp(std::abs(rotation_angle), M_PI * 3 / 4, M_PI) *
-                         -1 * (rotation_angle < 0);
+        m_animated_sprite->set_flip_h(true);
+        rotation_angle = std::clamp(rotation_angle, -M_PI * 1 / 4, M_PI * 1 / 4);
     } else {
         sprite_rotation = RelativeRot::right;
-        m_animated_sprite->set_flip_v(false);
+        m_animated_sprite->set_flip_h(false);
         rotation_angle = std::clamp(rotation_angle, -M_PI * 1 / 4, M_PI * 1 / 4);
     }
-    PLOG_INFO << "resulting angle: " << rotation_angle;
 
     rotation_angle = std::fmod(rotation_angle, 2 * M_PI);
     set_rotation(rotation_angle);
+
+    PLOG_INFO << get_rotation();
 
     return;
 }

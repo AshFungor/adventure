@@ -6,10 +6,12 @@ void godot::Player::_bind_methods() {
 
 godot::Player::Player() : m_editor {Engine::get_singleton()->is_editor_hint()}
 {
-    m_animated_sprite = std::make_unique<godot::AnimatedSprite2D>(AnimatedSprite2D{});
+    m_animated_sprite = std::make_unique<godot::AnimatedSprite2D>();
     m_animated_sprite->set_name(c_animated_sprite.data());
-    m_collision_shape = std::make_unique<godot::CollisionShape2D>(CollisionShape2D{});
+    m_collision_shape = std::make_unique<godot::CollisionShape2D>();
     m_collision_shape->set_name(c_collision_shape.data());
+    m_arms = std::make_unique<godot::Arms>();
+    m_arms->set_name(c_arms.data());
 }
 
 void godot::Player::_ready() {
@@ -30,6 +32,14 @@ void godot::Player::_ready() {
         m_collision_shape->set_owner(root_scene->get_edited_scene_root());
         add_child(m_collision_shape.get());
     }
+    if (has_node(c_arms.data())) {
+        m_arms.reset(
+            get_node<godot::Arms>(c_arms.data()));
+    } else {
+        m_arms->set_owner(root_scene->get_edited_scene_root());
+        add_child(m_arms.get());
+    }
+    EXLIB_INLINE_EDITOR_SAFEGUARD()
     m_input = godot::Input::get_singleton();
     m_screen_size = get_viewport_rect().size;
 }
@@ -48,9 +58,17 @@ void godot::Player::_physics_process(const double p_delta) {
         // will be equal to movement on an axis.
         velocity = velocity.normalized() * speed;
         if (velocity.x > 0) {
-            m_animated_sprite->play(c_walking_right_animation.data());
+            if (m_arms->_get_sprite_rotation() == (int) godot::RelativeRot::left) {
+                m_animated_sprite->play(c_walking_right_backwards_animation.data());
+            } else {
+                m_animated_sprite->play(c_walking_right_animation.data());
+            }
         } else {
-            m_animated_sprite->play(c_walking_left_animation.data());
+            if (m_arms->_get_sprite_rotation() == (int) godot::RelativeRot::right) {
+                m_animated_sprite->play(c_walking_left_backwards_animation.data());
+            } else {
+                m_animated_sprite->play(c_walking_left_animation.data());
+            }
         }
     } else {
         m_animated_sprite->play(c_idle_animation.data());
@@ -66,6 +84,7 @@ void godot::Player::_physics_process(const double p_delta) {
 godot::Player::~Player() {
     m_collision_shape.release();
     m_animated_sprite.release();
+    m_arms.release();
 }
 
 void godot::Player::start(const godot::Vector2 p_position) {}

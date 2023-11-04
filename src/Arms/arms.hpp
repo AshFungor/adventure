@@ -26,6 +26,8 @@
 #include <godot_cpp/classes/engine.hpp>
 #include <godot_cpp/variant/variant.hpp>
 
+#pragma once
+
 namespace godot {
 
     enum class RelativeRot : int {

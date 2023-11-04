@@ -24,7 +24,7 @@
     private:
 
 #define __EXLIB_PROPERTY_ENUM(t_enum_type, name, default_value, setter, getter)                    \
-    private: t_enum_type name {default_value};                                                          \
+    private: t_enum_type name {default_value};                                                     \
     public:                                                                                        \
     int getter () const { return (int) name; }                                                     \
     void setter (int value) { name = (t_enum_type) value; }                                        \
@@ -57,5 +57,5 @@
         set_physics_process(false);                                                                \
     }
 
-#define EXLIB_LOCAL_BUILD_DIR                                                                      \
-    "/home/fungor/extended-hard-drive/projects/cplusplus-projects/adventure/build"
+#define EXLIB_INLINE_EDITOR_SAFEGUARD()                                                            \
+    if (m_editor) return;
