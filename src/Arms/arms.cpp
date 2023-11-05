@@ -7,11 +7,9 @@ void godot::Arms::_bind_methods() {
 godot::Arms::Arms() : m_editor {Engine::get_singleton()->is_editor_hint()}
 {
     plog::init(plog::Severity::info, EXLIB_BUILD_DIR"/log.txt", 100'000, 3);
-    m_animated_sprite = std::make_unique<AnimatedSprite2D>
-        (AnimatedSprite2D{});
+    m_animated_sprite = std::make_unique<AnimatedSprite2D>();
     m_animated_sprite->set_name(c_animated_sprite.data());
-    m_collision_shape = std::make_unique<godot::CollisionShape2D>
-        (godot::CollisionShape2D{});
+    m_collision_shape = std::make_unique<godot::CollisionShape2D>();
     m_collision_shape->set_name(c_collision_shape.data());
 }
 

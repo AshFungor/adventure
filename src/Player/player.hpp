@@ -36,12 +36,12 @@ namespace godot {
         const std::string c_walking_right_backwards_animation {"walking_right_backwards"};
         const std::string c_walking_left_backwards_animation {"walking_left_backwards"};
 
-        godot::Input*                     m_input {};
-        godot::Vector2                    m_screen_size {};
-        std::unique_ptr<AnimatedSprite2D> m_animated_sprite {nullptr};
-        std::unique_ptr<CollisionShape2D> m_collision_shape {nullptr};
-        std::unique_ptr<godot::Arms>      m_arms {};
-        bool                              m_editor {false};
+        std::unique_ptr<godot::Input> m_input {};
+        godot::Vector2 m_screen_size {};
+        std::unique_ptr<godot::AnimatedSprite2D> m_animated_sprite {nullptr};
+        std::unique_ptr<godot::CollisionShape2D> m_collision_shape {nullptr};
+        std::unique_ptr<godot::Arms> m_arms {};
+        bool m_editor {false};
 
         EXLIB_PROPERTY(real_t, speed, 400)
 

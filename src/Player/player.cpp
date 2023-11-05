@@ -40,7 +40,7 @@ void godot::Player::_ready() {
         add_child(m_arms.get());
     }
     EXLIB_INLINE_EDITOR_SAFEGUARD()
-    m_input = godot::Input::get_singleton();
+    m_input.reset(godot::Input::get_singleton());
     m_screen_size = get_viewport_rect().size;
 }
 
@@ -85,6 +85,7 @@ godot::Player::~Player() {
     m_collision_shape.release();
     m_animated_sprite.release();
     m_arms.release();
+    m_input.release();
 }
 
 void godot::Player::start(const godot::Vector2 p_position) {}

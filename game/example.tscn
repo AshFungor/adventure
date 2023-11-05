@@ -107,7 +107,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walking_left",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -124,7 +124,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walking_left_backwards",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -141,7 +141,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walking_right",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -158,7 +158,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walking_right_backwards",
-"speed": 10.0
+"speed": 12.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f4i2h"]
@@ -189,7 +189,7 @@ position = Vector2(0, 2)
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="Player"]
 sprite_frames = SubResource("SpriteFrames_jb5or")
-animation = &"walking_right_backwards"
+animation = &"idle"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="Player"]
 position = Vector2(-3, 7)
