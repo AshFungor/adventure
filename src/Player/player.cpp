@@ -6,39 +6,18 @@ void godot::Player::_bind_methods() {
 
 godot::Player::Player() : m_editor {Engine::get_singleton()->is_editor_hint()}
 {
-    m_animated_sprite = std::make_unique<godot::AnimatedSprite2D>();
-    m_animated_sprite->set_name(c_animated_sprite.data());
-    m_collision_shape = std::make_unique<godot::CollisionShape2D>();
-    m_collision_shape->set_name(c_collision_shape.data());
-    m_arms = std::make_unique<godot::Arms>();
-    m_arms->set_name(c_arms.data());
+    EXLIB_INITIALIZE_DEFAULT_NODE(godot::AnimatedSprite2D, animated_sprite)
+    EXLIB_INITIALIZE_DEFAULT_NODE(godot::CollisionShape2D, collision_shape)
+    EXLIB_INITIALIZE_DEFAULT_NODE(godot::Arms, arms)
 }
 
 void godot::Player::_ready() {
     EXLIB_EDITOR_SAFEGUARD()
-    auto&& root_scene = get_tree();
+    auto&& root = get_tree()->get_edited_scene_root();
     // Adjust pointers to child nodes.
-    if (has_node(c_animated_sprite.data())) {
-        m_animated_sprite.reset(
-            get_node<godot::AnimatedSprite2D>(c_animated_sprite.data()));
-    } else {
-        m_animated_sprite->set_owner(root_scene->get_edited_scene_root());
-        add_child(m_animated_sprite.get());
-    }
-    if (has_node(c_collision_shape.data())) {
-        m_collision_shape.reset(
-            get_node<godot::CollisionShape2D>(c_animated_sprite.data()));
-    } else {
-        m_collision_shape->set_owner(root_scene->get_edited_scene_root());
-        add_child(m_collision_shape.get());
-    }
-    if (has_node(c_arms.data())) {
-        m_arms.reset(
-            get_node<godot::Arms>(c_arms.data()));
-    } else {
-        m_arms->set_owner(root_scene->get_edited_scene_root());
-        add_child(m_arms.get());
-    }
+    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::AnimatedSprite2D, animated_sprite, root)
+    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::CollisionShape2D, collision_shape, root)
+    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::Arms, arms, root)
     EXLIB_INLINE_EDITOR_SAFEGUARD()
     m_input.reset(godot::Input::get_singleton());
     m_screen_size = get_viewport_rect().size;

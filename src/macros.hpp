@@ -59,3 +59,16 @@
 
 #define EXLIB_INLINE_EDITOR_SAFEGUARD()                                                            \
     if (m_editor) return;
+
+#define EXLIB_INITIALIZE_DEFAULT_NODE(type, name)                                                  \
+    m_ ## name = std::make_unique<type>();                                                         \
+    m_ ## name ->set_name(c_ ## name .data());
+
+#define EXLIB_INITILIZE_NODE_FROM_SCENE(type, name, root)                                          \
+    if (!has_node(c_ ## name.data())) {                                                            \
+        add_child(m_ ## name.get());                                                               \
+        m_ ## name->set_owner(root);                                                               \
+    } else {                                                                                       \
+        m_ ## name.reset(                                                                          \
+        get_node<type>(c_ ## name.data()));                                                        \
+    }

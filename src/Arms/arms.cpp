@@ -7,29 +7,15 @@ void godot::Arms::_bind_methods() {
 godot::Arms::Arms() : m_editor {Engine::get_singleton()->is_editor_hint()}
 {
     plog::init(plog::Severity::info, EXLIB_BUILD_DIR"/log.txt", 100'000, 3);
-    m_animated_sprite = std::make_unique<AnimatedSprite2D>();
-    m_animated_sprite->set_name(c_animated_sprite.data());
-    m_collision_shape = std::make_unique<godot::CollisionShape2D>();
-    m_collision_shape->set_name(c_collision_shape.data());
+    EXLIB_INITIALIZE_DEFAULT_NODE(godot::AnimatedSprite2D, animated_sprite)
+    EXLIB_INITIALIZE_DEFAULT_NODE(godot::CollisionShape2D, collision_shape)
 }
 
 void godot::Arms::_ready() {
     EXLIB_EDITOR_SAFEGUARD()
     auto&& root = get_tree()->get_edited_scene_root();
-    if (!has_node(c_animated_sprite.data())) {
-        add_child(m_animated_sprite.get());
-        m_animated_sprite->set_owner(root);
-    } else {
-        m_animated_sprite.reset(
-            get_node<godot::AnimatedSprite2D>(c_animated_sprite.data()));
-    }
-    if (!has_node(c_collision_shape.data())) {
-        add_child(m_collision_shape.get());
-        m_collision_shape->set_owner(root);
-    } else {
-        m_collision_shape.reset(
-            get_node<godot::CollisionShape2D>(c_collision_shape.data()));
-    }
+    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::AnimatedSprite2D, animated_sprite, root)
+    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::CollisionShape2D, collision_shape, root)
     m_input.reset(godot::Input::get_singleton());
 }
 

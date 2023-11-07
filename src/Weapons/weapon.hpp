@@ -13,7 +13,7 @@
 namespace godot {
 
     enum class Weapons : int {
-        firearm = 0
+        firearm = 0, melee, magic
     };
 
     enum class Firearms : int {
