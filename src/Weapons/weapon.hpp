@@ -35,7 +35,6 @@ namespace godot {
             virtual Poco::UUID obj_id() = 0;
         };
 
-
         class Firearm : public Weapon {
         protected:
 
