@@ -1,6 +1,7 @@
 // Local
 #include "Player/player.hpp"
 #include "Arms/arms.hpp"
+#include "Weapons/weapon.hpp"
 #include "macros.hpp"
 
 // Logging
@@ -22,6 +23,7 @@ void initialize_gdextension_types(godot::ModuleInitializationLevel p_level)
 
     EXLIB_REGISTER_CLASS(Player)
     EXLIB_REGISTER_CLASS(Arms)
+    EXLIB_REGISTER_CLASS(weapons::AK47)
 
     // All initialization goes here.
 }

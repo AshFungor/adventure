@@ -18,6 +18,8 @@ add_compile_definitions(EXLIB_BUILD_DIR="${CMAKE_BINARY_DIR}")
 
 find_package(plog REQUIRED)
 
+find_package(Poco REQUIRED COMPONENTS Foundation)
+
 file(GLOB godot-cpp
     "${GODOT_BINARY_DIR}/*godot-cpp*")
 
@@ -43,6 +45,9 @@ target_include_directories(extension-lib PRIVATE
 
 target_link_libraries(extension-lib PRIVATE ${godot-cpp})
 target_link_libraries(extension-lib PRIVATE plog::plog)
+target_link_libraries(extension-lib PRIVATE Poco::Foundation)
+
+target_include_directories(extension-lib PUBLIC Poco::Foundation)
 
 file(COPY ${POSTBUILD_HOOK} DESTINATION ${CMAKE_BINARY_DIR})
 

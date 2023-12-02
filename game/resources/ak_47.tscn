@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://k287is0mkop"]
+
+[ext_resource type="Texture2D" uid="uid://4tsm4d10spds" path="res://art/GunsPack/Guns/AK47.png" id="1_qlju8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_38qiu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_qlju8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t7f5m"]
+size = Vector2(280, 112)
+
+[node name="AK47" type="AK47"]
+
+[node name="AK47Shape" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_38qiu")
+animation = &"idle"
+
+[node name="AK47Sprite" type="CollisionShape2D" parent="."]
+position = Vector2(-5, 2)
+shape = SubResource("RectangleShape2D_t7f5m")
