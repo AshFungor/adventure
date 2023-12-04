@@ -1,5 +1,6 @@
 // Local
 #include "macros.hpp"
+#include "exlib_base.hpp"
 
 // STD
 #include <vector>
@@ -11,6 +12,7 @@
 #include <godot_cpp/classes/animated_sprite2d.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
 #include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/classes/animation_player.hpp>
 
 // Poco
 #include <Poco/UUID.h>
@@ -21,38 +23,37 @@ namespace godot {
 
     namespace weapons {
 
-        class Weapon : public Area2D {
+        class Weapon : public Area2D, public exlib::ExlibBase {
         protected:
+            const std::string c_weapon_shape        {"Sprite"};
+            const std::string c_weapon_sprite       {"Shape"};
+            const std::string c_weapon_animation    {"Animation"};
             // Sprite and collision shape are present in every weapon.
-            std::unique_ptr<godot::AnimatedSprite2D> m_weapon_sprite;
-            std::unique_ptr<godot::CollisionShape2D> m_weapon_shape {};
-            // Editor lock.
-            bool m_editor {false};
-            // ID
-            Poco::UUID m_id;
-
-        public:
-            virtual Poco::UUID obj_id() = 0;
+            std::unique_ptr<godot::AnimatedSprite2D>    m_weapon_sprite {};
+            std::unique_ptr<godot::CollisionShape2D>    m_weapon_shape {};
+            std::unique_ptr<godot::AnimationPlayer>     m_weapon_animation {};
+            Weapon();
+            ~Weapon();
+            void m_ready();
         };
 
         class Firearm : public Weapon {
-        protected:
-
+        public:
             enum class FiringMode : int {
                 single = 0, burst, automatic, special
             };
 
             enum class Animation : int {
-                reload = 0, removal, taking, shooting
+                none = 0, reload, removal, taking, shooting
             };
 
+        protected:
             Vector2 m_firing_point {};
             FiringMode m_firing_mode {};
             std::vector<FiringMode> m_firing_modes {};
 
-        protected:
+            Animation m_current_animation {};
             bool m_animation_lock {};
-            size_t m_animation_time {};
 
             virtual void m_reload() = 0;
             virtual void m_shoot() = 0;
@@ -80,26 +81,16 @@ namespace godot {
                 FiringMode::automatic,
                 FiringMode::single
             };
-            // Base Locators
-            const std::string c_weapon_shape    {"AK47Sprite"};
-            const std::string c_weapon_sprite   {"AK47Shape"};
-            const std::string c_ak47            {"AK47"};
             // Animation overloads.
             virtual void m_reload() final;
             virtual void m_shoot() final;
             virtual void m_get_gun() final;
             virtual void m_remove_gun() final;
-            // ID
-            virtual Poco::UUID obj_id() final
-            { return m_id; }
-        protected:
             // Binding
             static void _bind_methods();
         public:
             void _ready() override;
             void _physics_process(const double p_delta) override;
-            AK47();
-            ~AK47();
         };
     }
 

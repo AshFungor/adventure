@@ -1,5 +1,6 @@
 // Local
 #include "macros.hpp"
+#include "exlib_base.hpp"
 
 // STD headers.
 #include <memory>
@@ -34,13 +35,12 @@ namespace godot {
         left = 0, aligned, right
     };
 
-    class Arms : public Area2D {
+    class Arms : public godot::Area2D, public exlib::ExlibBase {
         GDCLASS(Arms, Area2D)
 
         std::unique_ptr<godot::AnimatedSprite2D> m_animated_sprite {};
         std::unique_ptr<godot::CollisionShape2D> m_collision_shape {};
         std::unique_ptr<godot::Input> m_input {};
-        bool m_editor {false};
 
         const double c_proximity_delta = 1.0;
 

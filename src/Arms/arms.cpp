@@ -4,8 +4,7 @@ void godot::Arms::_bind_methods() {
     EXLIB_REGISTER_PROPERTY(sprite_rotation, Arms, godot::Variant::INT)
 }
 
-godot::Arms::Arms() : m_editor {Engine::get_singleton()->is_editor_hint()}
-{
+godot::Arms::Arms() {
     plog::init(plog::Severity::info, EXLIB_BUILD_DIR"/log.txt", 100'000, 3);
     EXLIB_INITIALIZE_DEFAULT_NODE(godot::AnimatedSprite2D, animated_sprite)
     EXLIB_INITIALIZE_DEFAULT_NODE(godot::CollisionShape2D, collision_shape)

@@ -57,13 +57,13 @@
     godot::ClassDB::register_class<godot::name>();
 
 #define EXLIB_EDITOR_SAFEGUARD()                                                                   \
-    if (m_editor) {                                                                                \
+    if (exlib_editor_hint()) {                                                                     \
         set_process(false);                                                                        \
         set_physics_process(false);                                                                \
     }
 
 #define EXLIB_INLINE_EDITOR_SAFEGUARD()                                                            \
-    if (m_editor) return;
+    if (exlib_editor_hint()) return;
 
 #define EXLIB_INITIALIZE_DEFAULT_NODE(type, name)                                                  \
     m_ ## name = std::make_unique<type>();                                                         \
@@ -77,3 +77,9 @@
         m_ ## name.reset(                                                                          \
         get_node<type>(c_ ## name.data()));                                                        \
     }
+
+#define __EXLIB_TO_STRING(token)                                                                   \
+    #token
+
+#define EXLIB_GET_CONST_LOCATOR(base, type)                                                        \
+    __EXLIB_TO_STRING(type ## base)

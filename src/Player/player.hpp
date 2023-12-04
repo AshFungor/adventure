@@ -1,6 +1,7 @@
 // Local
 #include "macros.hpp"
 #include "Arms/arms.hpp"
+#include "exlib_base.hpp"
 
 // STD headers.
 #include <memory>
@@ -22,7 +23,7 @@
 
 namespace godot {
 
-    class Player : public godot::Area2D {
+    class Player : public godot::Area2D, public exlib::ExlibBase {
         // Godot wrapper for inheritance.
         GDCLASS(Player, godot::Area2D)
 
@@ -41,7 +42,6 @@ namespace godot {
         std::unique_ptr<godot::AnimatedSprite2D> m_animated_sprite {nullptr};
         std::unique_ptr<godot::CollisionShape2D> m_collision_shape {nullptr};
         std::unique_ptr<godot::Arms> m_arms {};
-        bool m_editor {false};
 
         EXLIB_PROPERTY(real_t, speed, 400)
 

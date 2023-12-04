@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://k287is0mkop"]
+[gd_scene load_steps=6 format=3 uid="uid://k287is0mkop"]
 
 [ext_resource type="Texture2D" uid="uid://4tsm4d10spds" path="res://art/GunsPack/Guns/AK47.png" id="1_qlju8"]
 
@@ -16,12 +16,25 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t7f5m"]
 size = Vector2(280, 112)
 
+[sub_resource type="Animation" id="Animation_2p243"]
+resource_name = "Shooting"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x7wjv"]
+_data = {
+"Shooting": SubResource("Animation_2p243")
+}
+
 [node name="AK47" type="AK47"]
 
-[node name="AK47Shape" type="AnimatedSprite2D" parent="."]
+[node name="Shape" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_38qiu")
 animation = &"idle"
 
-[node name="AK47Sprite" type="CollisionShape2D" parent="."]
+[node name="Sprite" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 2)
 shape = SubResource("RectangleShape2D_t7f5m")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_x7wjv")
+}

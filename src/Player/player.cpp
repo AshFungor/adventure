@@ -4,8 +4,7 @@ void godot::Player::_bind_methods() {
     EXLIB_REGISTER_PROPERTY(speed, Player, godot::Variant::FLOAT)
 }
 
-godot::Player::Player() : m_editor {Engine::get_singleton()->is_editor_hint()}
-{
+godot::Player::Player() {
     EXLIB_INITIALIZE_DEFAULT_NODE(godot::AnimatedSprite2D, animated_sprite)
     EXLIB_INITIALIZE_DEFAULT_NODE(godot::CollisionShape2D, collision_shape)
     EXLIB_INITIALIZE_DEFAULT_NODE(godot::Arms, arms)
