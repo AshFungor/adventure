@@ -2,10 +2,10 @@
 # game directory
 
 function(deploy_binary_target)
-    # handle args
     set(OPTIONS UPDATE)
     set(ARGS NAME DESTINATION)
     set(LIST_ARGS )
+    
     cmake_parse_arguments(
         PARSE_ARGV 0
         BINARY_TARGET

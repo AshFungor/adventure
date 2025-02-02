@@ -1,9 +1,0 @@
-{
-    "version": 4,
-    "vendor": {
-        "conan": {}
-    },
-    "include": [
-        "/home/fungor/extended/projects/cplusplus-projects/adventure/build/Debug/generators/CMakePresets.json"
-    ]
-}
