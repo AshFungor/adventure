@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4ewoktefsvy1"
-path="res://.godot/imported/PistolAmmoBig.png-cdf1d5e8044f5af3fa588fa0f6caa283.ctex"
+uid="uid://b4eywnbiu400u"
+path="res://.godot/imported/dead_tomato_idle.png-2e89161ef0532283805e41ab4a029904.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/GunsPack/Bullets/PistolAmmoBig.png"
-dest_files=["res://.godot/imported/PistolAmmoBig.png-cdf1d5e8044f5af3fa588fa0f6caa283.ctex"]
+source_file="res://art/player/dead_tomato_idle.png"
+dest_files=["res://.godot/imported/dead_tomato_idle.png-2e89161ef0532283805e41ab4a029904.ctex"]
 
 [params]
 

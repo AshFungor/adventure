@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3cp23wqorelb"
-path="res://.godot/imported/dead_tomato_walking_left.png-295648af2b7d6b52de12e878f8780630.ctex"
+uid="uid://bsd6ldnjox4hl"
+path="res://.godot/imported/Luger.png-5ddd106e3d750a4fae40a0fc0b71b949.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/Player/dead_tomato_walking_left.png"
-dest_files=["res://.godot/imported/dead_tomato_walking_left.png-295648af2b7d6b52de12e878f8780630.ctex"]
+source_file="res://art/player/guns/Luger.png"
+dest_files=["res://.godot/imported/Luger.png-5ddd106e3d750a4fae40a0fc0b71b949.ctex"]
 
 [params]
 

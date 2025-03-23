@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de5id8kcoofrt"
-path="res://.godot/imported/dead_tomato_walking_left_backwards.png-d15310e73af294ae288436ee6fbb44a0.ctex"
+uid="uid://c6dn2p1db6b1n"
+path="res://.godot/imported/M15.png-7a7ab3cce82673597936ef5c8f8148ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/Player/dead_tomato_walking_left_backwards.png"
-dest_files=["res://.godot/imported/dead_tomato_walking_left_backwards.png-d15310e73af294ae288436ee6fbb44a0.ctex"]
+source_file="res://art/player/guns/M15.png"
+dest_files=["res://.godot/imported/M15.png-7a7ab3cce82673597936ef5c8f8148ae.ctex"]
 
 [params]
 

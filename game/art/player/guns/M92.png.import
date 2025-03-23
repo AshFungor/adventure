@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3p1vr23udgkn"
-path="res://.godot/imported/dead_tomato_idle.png-e4025e3e52182c7e50fcb42f13a12e9f.ctex"
+uid="uid://b8bx2sduc6ypd"
+path="res://.godot/imported/M92.png-8e4ba202e89e8b229a51646ba6564d32.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/Player/dead_tomato_idle.png"
-dest_files=["res://.godot/imported/dead_tomato_idle.png-e4025e3e52182c7e50fcb42f13a12e9f.ctex"]
+source_file="res://art/player/guns/M92.png"
+dest_files=["res://.godot/imported/M92.png-8e4ba202e89e8b229a51646ba6564d32.ctex"]
 
 [params]
 

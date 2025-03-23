@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bndolbfcxilpp"
-path="res://.godot/imported/RifleAmmoSmall.png-ad8858bb4d2b938743ccf73d16d8aa49.ctex"
+uid="uid://cim2nkfmr6wu0"
+path="res://.godot/imported/M24.png-bd3cc6e8fab81379fdf6ac5a721e4cb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/GunsPack/Bullets/RifleAmmoSmall.png"
-dest_files=["res://.godot/imported/RifleAmmoSmall.png-ad8858bb4d2b938743ccf73d16d8aa49.ctex"]
+source_file="res://art/player/guns/M24.png"
+dest_files=["res://.godot/imported/M24.png-bd3cc6e8fab81379fdf6ac5a721e4cb6.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c41u3cwx7mmri"
-path="res://.godot/imported/Luger.png-b198f5d5c8f343270175d8bb446985d4.ctex"
+uid="uid://cof1fqkpoddfq"
+path="res://.godot/imported/SawedOffShotgun.png-ec9180e2ce92cb4dfa2e8e29b013cb83.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/GunsPack/Guns/Luger.png"
-dest_files=["res://.godot/imported/Luger.png-b198f5d5c8f343270175d8bb446985d4.ctex"]
+source_file="res://art/player/guns/SawedOffShotgun.png"
+dest_files=["res://.godot/imported/SawedOffShotgun.png-ec9180e2ce92cb4dfa2e8e29b013cb83.ctex"]
 
 [params]
 

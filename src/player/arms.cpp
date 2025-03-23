@@ -3,17 +3,14 @@
 #include <godot_cpp/classes/animated_sprite2d.hpp>
 #include <godot_cpp/classes/collision_shape2d.hpp>
 #include <godot_cpp/classes/viewport.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/variant/vector2.hpp>
 
 #include <src/common/initializer.hpp>
 #include <src/player/arms.hpp>
 
-static const char* const ARMS_SPRITE = "sprite";
-static const char* const ARMS_COLLISION_SHAPE = "collision-shape";
-
-static constexpr std::string cAutoRifleAK47{"AK47"};
-static constexpr std::string cAutoRifleM15{"M15"};
-static constexpr std::string cPistolLuger{"Luger"};
+static const char* const ARMS_SPRITE = "AnimatedSprite";
+static const char* const ARMS_COLLISION_SHAPE = "CollisionShape";
 
 using namespace tomato;
 

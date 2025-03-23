@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crsrag32qwim5"
-path="res://.godot/imported/RifleAmmoBig.png-984c29e751c9543b8d8d40e11d3c5858.ctex"
+uid="uid://bf4bbd0pwqkbv"
+path="res://.godot/imported/dead_tomato_walking_left.png-dd1e4c9c219fbb06d19a6cf9de483ef5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/GunsPack/Bullets/RifleAmmoBig.png"
-dest_files=["res://.godot/imported/RifleAmmoBig.png-984c29e751c9543b8d8d40e11d3c5858.ctex"]
+source_file="res://art/player/dead_tomato_walking_left.png"
+dest_files=["res://.godot/imported/dead_tomato_walking_left.png-dd1e4c9c219fbb06d19a6cf9de483ef5.ctex"]
 
 [params]
 

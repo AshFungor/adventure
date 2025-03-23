@@ -3,6 +3,7 @@
 #include <cassert>
 #include <godot_cpp/classes/node.hpp>
 #include <godot_cpp/classes/scene_tree.hpp>
+#include <godot_cpp/core/memory.hpp>
 #include <godot_cpp/variant/node_path.hpp>
 #include <godot_cpp/variant/string.hpp>
 #include <type_traits>
@@ -26,7 +27,7 @@ T* tomato::loadNode(godot::Node* parent, const godot::NodePath& path) {
         return parent->get_node<T>(path);
     }
 
-    T* instance = new T();
+    T* instance = memnew(T);
     parent->add_child(instance);
     // set_owner is used to preserve this node later
     // https://docs.godotengine.org/en/stable/classes/class_node.html#class-node-method-add-child

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://y1bcml4if7d5"
-path="res://.godot/imported/M24.png-65d512712db433e595289a6bb212ef5c.ctex"
+uid="uid://dwy326jgsak0e"
+path="res://.godot/imported/ShotgunShellBig.png-7979105923ff9c84aad8b2e60337c0c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/GunsPack/Guns/M24.png"
-dest_files=["res://.godot/imported/M24.png-65d512712db433e595289a6bb212ef5c.ctex"]
+source_file="res://art/player/guns/bullets/ShotgunShellBig.png"
+dest_files=["res://.godot/imported/ShotgunShellBig.png-7979105923ff9c84aad8b2e60337c0c1.ctex"]
 
 [params]
 

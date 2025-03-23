@@ -7,8 +7,9 @@ using namespace tomato;
 void tomato::disableEditorProcessing(godot::Node* target) {
     assert(target);
 
-    if (godot::Engine::get_singleton()->is_editor_hint()) {
-        target->set_process(false);
+    const godot::Engine* engine = godot::Engine::get_singleton();
+    if (engine->is_editor_hint()) {
         target->set_physics_process(false);
+        target->set_process(false);
     }
 }
