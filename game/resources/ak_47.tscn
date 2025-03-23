@@ -21,7 +21,7 @@ resource_name = "Shooting"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_x7wjv"]
 _data = {
-"Shooting": SubResource("Animation_2p243")
+&"Shooting": SubResource("Animation_2p243")
 }
 
 [node name="AK47" type="AK47"]

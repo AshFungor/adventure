@@ -1,0 +1,8 @@
+[configuration]
+
+entry_symbol = "extension_lib_init"
+compatibility_minimum = 4.1
+
+[libraries]
+linux.debug.x86_64 = "res://bin/libadventure-game.so"
+linux.release.x86_64 = "res://bin/libadventure-game.so"

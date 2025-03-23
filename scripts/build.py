@@ -11,36 +11,38 @@ import argparse
 import subprocess
 import multiprocessing
 
+from pathlib import Path
 from dataclasses import dataclass, field
+from typing import Callable, Iterable, Union, Tuple
 
-description = """
-    CLI build helper.
-"""
+DESCRIPTION = '''
+    CLI build helper for Dead Tomato.
+'''
 
 
 @dataclass
 class Config:
-    build_directory: pathlib.Path = field(default_factory=lambda: pathlib.Path.cwd().joinpath('build'))
-    build_configs: typing.List[str] = field(default_factory=lambda: ['Debug'])
+    build_directory: Path = field(default_factory=lambda: Path.cwd().joinpath('build'))
+    build_configs: Iterable[str] = field(default_factory=lambda: ['Debug'])
     cores: int = multiprocessing.cpu_count()
-    profile: typing.Union[pathlib.Path, str] = 'default'
+    profile: Union[Path, str] = 'default'
     generator: str = 'Ninja'
 
 
-def routine(priority: int) -> typing.Callable:
+def routine(priority: int) -> Callable:
     def decorator(method):
         method.priority = priority
         method.is_routine = True
         return method
+
     return decorator
 
 
 class Routines:
+    def __init__(self, params: Config):
+        self.__params = params
 
-    def __init__(self: 'Routines', params: Config) -> None:
-        self._params = params
-
-    def routines(self: 'Routines') -> typing.Generator[typing.Tuple[str, typing.Callable], None, None]:
+    def routines(self) -> Iterable[Tuple[str, Callable]]:
         def key(pair):
             _, member = pair
             return member.priority if hasattr(member, 'priority') else 0
@@ -51,9 +53,9 @@ class Routines:
                 yield name, method
 
     @routine(5)
-    def remove(self: 'Routines') -> None:
-        for config in self._params.build_configs:
-            directory = self._params.build_directory.joinpath(config)
+    def remove(self):
+        for config in self.__params.build_configs:
+            directory = self.__params.build_directory.joinpath(config)
             if directory.is_dir():
                 print(f'removing directory for CMake build config \'{config}\'')
                 shutil.rmtree(directory)
@@ -61,94 +63,97 @@ class Routines:
                 print(f'build directory for config \'{config}\' was not found or was not a directory')
 
     @routine(4)
-    def conan_install(self: 'Routines') -> None:
-        for config in self._params.build_configs:
-            print(f'running conan install command for CMake config {config}')
-            self._run([
-                'conan',
-                'install',
-                '--build=missing',
-                f'-pr:a={self._params.profile}',
-                str(pathlib.Path.cwd())
-            ])
+    def conan_install(self):
+        print(f'running Conan install command')
+        self.__run([
+            'conan',
+            'install',
+            '--build=missing',
+            f'-pr:a={self.__params.profile}',
+            str(Path.cwd())
+        ])
 
     @routine(3)
-    def configure(self: 'Routines') -> None:
-        if not self._params.build_directory.is_dir():
-            self._params.build_directory.mkdir()
+    def configure(self):
+        if not self.__params.build_directory.is_dir():
+            self.__params.build_directory.mkdir()
 
-        use_presets = pathlib.Path.cwd().joinpath('CMakeUserPresets.json').is_file()
-        print('configuring for CMake build configs: ' + ', '.join(self._params.build_configs))
+        use_presets = Path.cwd().joinpath('CMakeUserPresets.json').is_file()
+        print('configuring for CMake build configs: ' + ', '.join(self.__params.build_configs))
 
-        for config in self._params.build_configs:
-            source = pathlib.Path.cwd()
-            binary = self._params.build_directory.joinpath(config)
+        for config in self.__params.build_configs:
+            source = Path.cwd()
+            binary = self.__params.build_directory.joinpath(config)
             command = [
                 'cmake',
+                # TODO: handle conan configs differently in
+                # multi-config scenario
                 '--preset', f'conan-{config.lower()}',
-                '-G', self._params.generator,
+                '-G', self.__params.generator,
                 '-B', str(binary),
                 '-S', str(source),
-                self._decorate_cmake_variable('CMAKE_EXPORT_COMPILE_COMMANDS', 'ON', 'BOOL'),
-                self._decorate_cmake_variable('CMAKE_BUILD_TYPE', config)
+                self.__decorate_cmake_variable('CMAKE_EXPORT_COMPILE_COMMANDS', 'ON', 'BOOL'),
+                self.__decorate_cmake_variable('CMAKE_BUILD_TYPE', config)
             ] if use_presets else [
                 'cmake',
-                '-G', self._params.generator,
+                '-G', self.__params.generator,
                 '-B', str(binary),
                 '-S', str(source),
-                self._decorate_cmake_variable('CMAKE_EXPORT_COMPILE_COMMANDS', 'ON', 'BOOL'),
-                self._decorate_cmake_variable('CMAKE_BUILD_TYPE', config)
+                self.__decorate_cmake_variable('CMAKE_EXPORT_COMPILE_COMMANDS', 'ON', 'BOOL'),
+                self.__decorate_cmake_variable('CMAKE_BUILD_TYPE', config)
             ]
+
             print(f'running configure command for CMake config {config}')
-            self._run(command)
+            self.__run(command)
 
     @routine(2)
-    def build(self: 'Routines') -> None:
-        if not self._params.build_directory.is_dir():
-            sys.exit(f'build directory \'{self._params.build_directory}\' was not found')
+    def build(self):
+        if not self.__params.build_directory.is_dir():
+            sys.exit(f'build directory \'{self.__params.build_directory}\' was not found')
 
-        print(f'using {self._params.cores} threads')
-        for config in self._params.build_configs:
-            directory = self._params.build_directory.joinpath(config)
+        print(f'using {self.__params.cores} threads')
+        for config in self.__params.build_configs:
+            directory = self.__params.build_directory.joinpath(config)
             print(f'building for CMake configuration \'{config}\'')
-            self._run([
+            self.__run([
                 'cmake',
                 '--build', str(directory),
-                '--parallel', str(self._params.cores)
+                '--parallel', str(self.__params.cores)
             ])
 
     @routine(1)
     def symlink_compile_commands(self: 'Routines') -> None:
-        if 'Debug' in self._params.build_configs:
-            path = self._params.build_directory.joinpath('Debug').joinpath('compile_commands.json')
+        if 'Debug' in self.__params.build_configs:
+            path = self.__params.build_directory.joinpath('Debug').joinpath('compile_commands.json')
             print(f'creating symlink for path \'{path}\'')
-        if 'Release' in self._params.build_configs:
-            path = self._params.build_directory.joinpath('Release').joinpath('compile_commands.json')
+
+        if 'Release' in self.__params.build_configs:
+            path = self.__params.build_directory.joinpath('Release').joinpath('compile_commands.json')
             print(f'creating symlink for path \'{path}\'')
+
         if path is None:
             sys.exit('no supported CMake configs detected')
-        symlink = pathlib.Path.cwd().joinpath('compile_commands.json')
+
+        symlink = Path.cwd().joinpath('compile_commands.json')
         if symlink.is_symlink():
             symlink.unlink()
-        pathlib.Path.cwd().joinpath('compile_commands.json').symlink_to(path)
 
-    def _run(self: 'Routines', command: typing.List[str]) -> None:
+        Path.cwd().joinpath('compile_commands.json').symlink_to(path)
+
+    def __run(self: 'Routines', command: typing.List[str]) -> None:
         print('running command: ' + ' '.join(command))
         code = subprocess.run(command, encoding='UTF-8', stderr=subprocess.STDOUT, env=os.environ).returncode
         if code:
             sys.exit(f'error: subprocess failed: {errno.errorcode[code]} (code: {code})')
 
-    def _decorate_cmake_variable(self: 'Routines', var: str, value: str, type: typing.Union[str, None] = None) -> str:
+    def __decorate_cmake_variable(self: 'Routines', var: str, value: str, type: Union[str, None] = None) -> str:
         if type is not None:
             return f'-D{var.upper()}:{type}={value}'
         return f'-D{var.upper()}={value}'
 
-    def _decorate_conan_profile_entry(self: 'Routines', section: str, entry: str, value: str) -> str:
-        return f'--{section}={entry}={value}'
-
 
 def parse_cli_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(description=DESCRIPTION, formatter_class=argparse.RawDescriptionHelpFormatter)
     # Routines
     parser.add_argument('-b', '--build', action='store_true', dest='build')
     parser.add_argument('-c', '--configure', action='store_true', dest='configure')
@@ -164,12 +169,12 @@ def parse_cli_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main() -> None:
+def main():
     args = parse_cli_args()
 
     params = Config()
     if getattr(args, 'build_directory') is not None:
-        params.build_directory = pathlib.Path.cwd().joinpath(args.build_directory)
+        params.build_directory = Path.cwd().joinpath(args.build_directory)
         print(f'config: user-provided build directory: \'{params.build_directory}\'')
     if getattr(args, 'configs') is not None:
         params.build_configs = args.configs

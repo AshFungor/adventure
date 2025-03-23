@@ -1,70 +1,100 @@
-#include "player.hpp"
+#include <algorithm>
 
-void godot::Player::_bind_methods() {
-    EXLIB_REGISTER_PROPERTY(speed, Player, godot::Variant::FLOAT)
+#include <cstddef>
+#include <godot_cpp/classes/animated_sprite2d.hpp>
+#include <godot_cpp/classes/collision_shape2d.hpp>
+#include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/core/defs.hpp>
+#include <godot_cpp/core/property_info.hpp>
+#include <godot_cpp/variant/node_path.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
+#include <godot_cpp/variant/variant.hpp>
+
+#include <src/common/def.hpp>
+#include <src/common/initializer.hpp>
+#include <src/player/player.hpp>
+#include "src/player/arms.hpp"
+
+using namespace tomato;
+
+static const char* const PLAYER_ANIMATED_SPRITE = "AnimatedSprite";
+static const char* const PLAYER_COLLISION_SHAPE = "CollisionShape";
+static const char* const PLAYER_ARMS = "Arms";
+
+constexpr std::size_t PLAYER_ANIM_WALKING_RIGHT = 0;
+constexpr std::size_t PLAYER_ANIM_WALKING_LEFT = 1;
+constexpr std::size_t PLAYER_ANIM_IDLE = 2;
+constexpr std::size_t PLAYER_ANIM_WALKING_RIGHT_BACKWARDS = 3;
+constexpr std::size_t PLAYER_ANIM_WALKING_LEFT_BACKWARDS = 4;
+
+static const std::array<const char*, 5> PLAYER_ANIMATIONS = {
+    "walking_right", "walking_left", "idle", "walking_right_backwards",
+    "walking_left_backwards"};
+
+void Player::_bind_methods() {
+    godot::ClassDB::bind_method(godot::D_METHOD("set_speed"),
+                                &Player::setSpeed);
+    godot::ClassDB::bind_method(godot::D_METHOD("speed"), &Player::speed);
+    godot::ClassDB::add_property(
+        "Player", godot::PropertyInfo(godot::Variant::FLOAT, "speed"),
+        "set_speed", "speed");
 }
 
-godot::Player::Player() {
-    EXLIB_INITIALIZE_DEFAULT_NODE(godot::AnimatedSprite2D, animated_sprite)
-    EXLIB_INITIALIZE_DEFAULT_NODE(godot::CollisionShape2D, collision_shape)
-    EXLIB_INITIALIZE_DEFAULT_NODE(godot::Arms, arms)
+real_t Player::speed() const { return speed_; }
+
+void Player::setSpeed(real_t value) { speed_ = value; }
+
+void Player::_ready() {
+    tomato::disableEditorProcessing(this);
+    animatedSprite_ =
+        tomato::loadNode<godot::AnimatedSprite2D>(this, PLAYER_ANIMATED_SPRITE);
+    collisionShape_ =
+        tomato::loadNode<godot::CollisionShape2D>(this, PLAYER_COLLISION_SHAPE);
+    arms_ = tomato::loadNode<tomato::Arms>(this, PLAYER_ARMS);
+
+    input_ = godot::Input::get_singleton();
+    screenSize_ = get_viewport_rect().size;
 }
 
-void godot::Player::_ready() {
-    EXLIB_EDITOR_SAFEGUARD()
-    auto&& root = get_tree()->get_edited_scene_root();
-    // Adjust pointers to child nodes.
-    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::AnimatedSprite2D, animated_sprite, root)
-    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::CollisionShape2D, collision_shape, root)
-    EXLIB_INITILIZE_NODE_FROM_SCENE(godot::Arms, arms, root)
-    EXLIB_INLINE_EDITOR_SAFEGUARD()
-    m_input.reset(godot::Input::get_singleton());
-    m_screen_size = get_viewport_rect().size;
-}
-
-void godot::Player::_physics_process(const double p_delta) {
-
+void Player::_physics_process(const double p_delta) {
     godot::Vector2 velocity = {0, 0};
 
-    velocity.x = m_input->get_action_strength("move_right")
-                 - m_input->get_action_strength("move_left");
-    velocity.y = m_input->get_action_strength("move_down")
-                 - m_input->get_action_strength("move_up");
+    velocity.x = input_->get_action_strength("move_right") -
+                 input_->get_action_strength("move_left");
+    velocity.y = input_->get_action_strength("move_down") -
+                 input_->get_action_strength("move_up");
 
     if (velocity.length() > 0) {
         // We need to normalize velocity, so that diagonal movement
         // will be equal to movement on an axis.
-        velocity = velocity.normalized() * speed;
+        velocity = velocity.normalized() * speed_;
         if (velocity.x > 0) {
-            if (m_arms->_get_sprite_rotation() == (int) godot::RelativeRot::left) {
-                m_animated_sprite->play(c_walking_right_backwards_animation.data());
+            if (arms_->spriteRotation() ==
+                static_cast<int>(tomato::Arms::RelativeRotation::LEFT)) {
+                animatedSprite_->play(
+                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_RIGHT_BACKWARDS]);
             } else {
-                m_animated_sprite->play(c_walking_right_animation.data());
+                animatedSprite_->play(
+                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_RIGHT]);
             }
         } else {
-            if (m_arms->_get_sprite_rotation() == (int) godot::RelativeRot::right) {
-                m_animated_sprite->play(c_walking_left_backwards_animation.data());
+            if (arms_->spriteRotation() ==
+                static_cast<int>(tomato::Arms::RelativeRotation::RIGHT)) {
+                animatedSprite_->play(
+                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_LEFT_BACKWARDS]);
             } else {
-                m_animated_sprite->play(c_walking_left_animation.data());
+                animatedSprite_->play(
+                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_LEFT]);
             }
         }
     } else {
-        m_animated_sprite->play(c_idle_animation.data());
+        animatedSprite_->play(PLAYER_ANIMATIONS[PLAYER_ANIM_IDLE]);
     }
 
     auto position = get_position();
     position += velocity * static_cast<real_t>(p_delta);
-    position.x = std::clamp(position.x, static_cast<real_t>(0.0), m_screen_size.x);
-    position.y = std::clamp(position.y, static_cast<real_t>(0.0), m_screen_size.y);
+    position.x = std::clamp(position.x, 0.0f, screenSize_.x);
+    position.y = std::clamp(position.y, 0.0f, screenSize_.y);
     set_position(position);
 }
-
-godot::Player::~Player() {
-    m_collision_shape.release();
-    m_animated_sprite.release();
-    m_arms.release();
-    m_input.release();
-}
-
-void godot::Player::start(const godot::Vector2 p_position) {}
-void godot::Player::_on_body_entered(std::unique_ptr<godot::Node2D> _body) {}

@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.19)
 
-set(MODULE_NAME player)
+set(SOURCES player.cpp arms.cpp)
+set(HEADERS player.hpp arms.hpp)
 
-set(SOURCES player.cpp)
-set(HEADERS player.hpp)
+add_library(player STATIC ${SOURCES} ${HEADERS})
 
-add_library(${MODULE_NAME} STATIC ${SOURCES} ${HEADERS})
+target_link_libraries(player PUBLIC godot-cpp common)
 
-target_include_directories(${MODULE_NAME} PUBLIC ${SRC_DIR})
-target_link_libraries(${MODULE_NAME} PUBLIC godot-cpp plog)
+target_include_directories(player PUBLIC ${CMAKE_SOURCE_DIR})

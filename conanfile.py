@@ -9,7 +9,7 @@ class AdventureGame(ConanFile):
     settings: typing.List[str] = ['os', 'compiler', 'build_type', 'arch']
 
     def __init__(self: typing.Self, display_name: str = '') -> None:
-        self._requirements = {
+        self.__requirements = {
             'plog': '1.1.10',
             'gtest': '1.14.0',
             'nlohmann_json': '3.11.3',
@@ -18,7 +18,7 @@ class AdventureGame(ConanFile):
         super().__init__(display_name)
 
     def requirements(self: typing.Self) -> None:
-        for req, version in self._requirements.items():
+        for req, version in self.__requirements.items():
             self.requires(f'{req}/{version}')
 
     def layout(self):

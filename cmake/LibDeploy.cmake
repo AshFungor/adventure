@@ -1,28 +1,24 @@
-# deploys compiled GDExtension library to 
-# game directory
-
 function(deploy_binary_target)
-    set(OPTIONS UPDATE)
-    set(ARGS NAME DESTINATION)
-    set(LIST_ARGS )
-    
-    cmake_parse_arguments(
-        PARSE_ARGV 0
-        BINARY_TARGET
-        "${OPTIONS}"
-        "${ARGS}"
-        "${LIST_ARGS}"
+    set(ARGS "TARGET;DESTINATION")
+    cmake_parse_arguments(args "" "${ARGS}" "" ${ARGN})
+
+    if(args_UNPARSED_ARGUMENTS)
+        message(FATAL_ERROR "deploy_binary_target called with invalid arguments: ${args_UNPARSED_ARGUMENTS}")
+    endif()
+
+    if(NOT args_TARGET)
+        message(FATAL_ERROR "deploy_binary_target: TARGET argument is required.")
+    endif()
+
+    if(NOT args_DESTINATION)
+        message(FATAL_ERROR "deploy_binary_target: DESTINATION argument is required.")
+    endif()
+
+    # Add a post-build command to copy the binary to the destination
+    add_custom_command(TARGET ${args_TARGET} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:${args_TARGET}>
+            ${args_DESTINATION}/$<TARGET_FILE_NAME:${args_TARGET}>
+        COMMENT "Deploying ${args_TARGET} to ${args_DESTINATION}"
     )
-
-    foreach(ARG IN ITEMS ${BINARY_TARGET_UNPARSED_ARGUMENTS})
-        message(WARNING "Argument is not parsed: ${ARG}")
-    endforeach()
-
-    # get binary target name
-    get_target_property(BINARY_TARGET_NAME BINARY_TARGET_NAME $<LIBRARY_OUTPUT_NAME>)
-
-    add_custom_command(TARGET ${BINARY_TARGET_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${BINARY_TARGET_NAME}> ${DEFINITION}/${BINARY_TARGET_NAME}
-    )
-
 endfunction()
