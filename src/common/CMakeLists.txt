@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 
-set(SOURCES initializer.cpp)
-set(HEADERS initializer.hpp)
+set(SOURCES nodes.cpp)
+set(HEADERS nodes.hpp)
 
 add_library(common STATIC ${SOURCES} ${HEADERS})
 

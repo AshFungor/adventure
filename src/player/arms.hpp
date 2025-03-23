@@ -16,7 +16,7 @@ namespace tomato {
         GDCLASS(Arms, godot::Area2D)
 
     public:
-        enum class RelativeRotation : int { LEFT = 0, ALIGNED, RIGHT };
+        enum class RelativeRotation : int { LEFT, ALIGNED, RIGHT, MAX_VALUE = RIGHT, MIN_VALUE = LEFT };
 
         /* properties */
         int spriteRotation() const;

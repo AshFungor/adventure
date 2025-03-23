@@ -6,7 +6,6 @@ import errno
 import shutil
 import typing
 import inspect
-import pathlib
 import argparse
 import subprocess
 import multiprocessing

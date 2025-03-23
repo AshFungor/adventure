@@ -6,7 +6,6 @@
 
 # Ignore library files but not the gdextension file
 game/bin/*
-!game/bin/*.gdextension
 .sconsign*.dblite
 
 # Build directory
@@ -89,3 +88,6 @@ compile_commands.json
 
 # Auto-generated Conan Presets
 CMakeUserPresets*
+
+# Clang language server cache
+.cache

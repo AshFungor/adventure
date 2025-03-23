@@ -1,6 +1,6 @@
 #include <algorithm>
-
 #include <cstddef>
+
 #include <godot_cpp/classes/animated_sprite2d.hpp>
 #include <godot_cpp/classes/collision_shape2d.hpp>
 #include <godot_cpp/classes/engine.hpp>
@@ -12,9 +12,9 @@
 #include <godot_cpp/variant/variant.hpp>
 
 #include <src/common/def.hpp>
-#include <src/common/initializer.hpp>
+#include <src/common/nodes.hpp>
+#include <src/player/arms.hpp>
 #include <src/player/player.hpp>
-#include "src/player/arms.hpp"
 
 using namespace tomato;
 
@@ -28,29 +28,27 @@ constexpr std::size_t PLAYER_ANIM_IDLE = 2;
 constexpr std::size_t PLAYER_ANIM_WALKING_RIGHT_BACKWARDS = 3;
 constexpr std::size_t PLAYER_ANIM_WALKING_LEFT_BACKWARDS = 4;
 
-static const std::array<const char*, 5> PLAYER_ANIMATIONS = {
-    "walking_right", "walking_left", "idle", "walking_right_backwards",
-    "walking_left_backwards"};
+static const std::array<const char*, 5> PLAYER_ANIMATIONS = {"walking_right", "walking_left", "idle", "walking_right_backwards",
+                                                             "walking_left_backwards"};
 
 void Player::_bind_methods() {
-    godot::ClassDB::bind_method(godot::D_METHOD("set_speed"),
-                                &Player::setSpeed);
-    godot::ClassDB::bind_method(godot::D_METHOD("speed"), &Player::speed);
-    godot::ClassDB::add_property(
-        "Player", godot::PropertyInfo(godot::Variant::FLOAT, "speed"),
-        "set_speed", "speed");
+    // props info
+    godot::PropertyInfo speedProperty{godot::Variant::FLOAT, "speed"};
+    tomato::registerProperty("Player", "set_speed", "speed", speedProperty, &Player::setSpeed, &Player::speed);
 }
 
-real_t Player::speed() const { return speed_; }
+real_t Player::speed() const {
+    return speed_;
+}
 
-void Player::setSpeed(real_t value) { speed_ = value; }
+void Player::setSpeed(real_t value) {
+    speed_ = std::max(value, 0.0f);
+}
 
 void Player::_ready() {
     tomato::disableEditorProcessing(this);
-    animatedSprite_ =
-        tomato::loadNode<godot::AnimatedSprite2D>(this, PLAYER_ANIMATED_SPRITE);
-    collisionShape_ =
-        tomato::loadNode<godot::CollisionShape2D>(this, PLAYER_COLLISION_SHAPE);
+    animatedSprite_ = tomato::loadNode<godot::AnimatedSprite2D>(this, PLAYER_ANIMATED_SPRITE);
+    collisionShape_ = tomato::loadNode<godot::CollisionShape2D>(this, PLAYER_COLLISION_SHAPE);
     arms_ = tomato::loadNode<tomato::Arms>(this, PLAYER_ARMS);
 
     input_ = godot::Input::get_singleton();
@@ -60,32 +58,24 @@ void Player::_ready() {
 void Player::_physics_process(const double p_delta) {
     godot::Vector2 velocity = {0, 0};
 
-    velocity.x = input_->get_action_strength("move_right") -
-                 input_->get_action_strength("move_left");
-    velocity.y = input_->get_action_strength("move_down") -
-                 input_->get_action_strength("move_up");
+    velocity.x = input_->get_action_strength("move_right") - input_->get_action_strength("move_left");
+    velocity.y = input_->get_action_strength("move_down") - input_->get_action_strength("move_up");
 
     if (velocity.length() > 0) {
         // We need to normalize velocity, so that diagonal movement
         // will be equal to movement on an axis.
         velocity = velocity.normalized() * speed_;
         if (velocity.x > 0) {
-            if (arms_->spriteRotation() ==
-                static_cast<int>(tomato::Arms::RelativeRotation::LEFT)) {
-                animatedSprite_->play(
-                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_RIGHT_BACKWARDS]);
+            if (arms_->spriteRotation() == static_cast<int>(tomato::Arms::RelativeRotation::LEFT)) {
+                animatedSprite_->play(PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_RIGHT_BACKWARDS]);
             } else {
-                animatedSprite_->play(
-                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_RIGHT]);
+                animatedSprite_->play(PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_RIGHT]);
             }
         } else {
-            if (arms_->spriteRotation() ==
-                static_cast<int>(tomato::Arms::RelativeRotation::RIGHT)) {
-                animatedSprite_->play(
-                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_LEFT_BACKWARDS]);
+            if (arms_->spriteRotation() == static_cast<int>(tomato::Arms::RelativeRotation::RIGHT)) {
+                animatedSprite_->play(PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_LEFT_BACKWARDS]);
             } else {
-                animatedSprite_->play(
-                    PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_LEFT]);
+                animatedSprite_->play(PLAYER_ANIMATIONS[PLAYER_ANIM_WALKING_LEFT]);
             }
         }
     } else {

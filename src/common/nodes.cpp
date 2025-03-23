@@ -1,6 +1,6 @@
 #include <cassert>
 #include <godot_cpp/classes/engine.hpp>
-#include <src/common/initializer.hpp>
+#include <src/common/nodes.hpp>
 
 using namespace tomato;
 

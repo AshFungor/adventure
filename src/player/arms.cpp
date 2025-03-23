@@ -6,7 +6,7 @@
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/variant/vector2.hpp>
 
-#include <src/common/initializer.hpp>
+#include <src/common/nodes.hpp>
 #include <src/player/arms.hpp>
 
 static const char* const ARMS_SPRITE = "AnimatedSprite";
@@ -15,29 +15,25 @@ static const char* const ARMS_COLLISION_SHAPE = "CollisionShape";
 using namespace tomato;
 
 void Arms::_bind_methods() {
-    godot::ClassDB::bind_method(godot::D_METHOD("set_sprite_rotation"),
-                                &Arms::setSpriteRotation);
-    godot::ClassDB::bind_method(godot::D_METHOD("sprite_rotation"),
-                                &Arms::spriteRotation);
-    godot::ClassDB::add_property(
-        "Arms", godot::PropertyInfo(godot::Variant::INT, "sprite_rotation"),
-        "set_sprite_rotation", "sprite_rotation");
+    godot::PropertyInfo spriteRotationProperty{godot::Variant::INT, "sprite_rotation"};
+    tomato::registerProperty("Arms", "set_sprite_rotation", "sprite_rotation", spriteRotationProperty, &Arms::setSpriteRotation,
+                             &Arms::spriteRotation);
 }
 
 void Arms::_ready() {
     tomato::disableEditorProcessing(this);
-    collisionShape_ =
-        tomato::loadNode<godot::CollisionShape2D>(this, ARMS_COLLISION_SHAPE);
-    animatedSprite_ =
-        tomato::loadNode<godot::AnimatedSprite2D>(this, ARMS_SPRITE);
+    collisionShape_ = tomato::loadNode<godot::CollisionShape2D>(this, ARMS_COLLISION_SHAPE);
+    animatedSprite_ = tomato::loadNode<godot::AnimatedSprite2D>(this, ARMS_SPRITE);
 
     input_ = godot::Input::get_singleton();
 }
 
-int Arms::spriteRotation() const { return static_cast<int>(spriteRotation_); }
+int Arms::spriteRotation() const {
+    return static_cast<int>(spriteRotation_);
+}
 
 void Arms::setSpriteRotation(int value) {
-    spriteRotation_ = static_cast<RelativeRotation>(value);
+    spriteRotation_ = tomato::clampEnumValue(value, RelativeRotation::MIN_VALUE, RelativeRotation::MAX_VALUE);
 }
 
 double Arms::rotationAngle(godot::Vector2 base, godot::Vector2 target) {

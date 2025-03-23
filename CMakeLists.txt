@@ -13,5 +13,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # targets
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+if(GENERATOR_IS_MULTI_CONFIG)
+    message(FATAL_ERROR "multi-configuration builds are not supported")
+endif()
+
 add_subdirectory(godot-cpp)
 add_subdirectory(src)

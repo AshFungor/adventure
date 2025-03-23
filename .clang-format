@@ -19,3 +19,9 @@ AccessModifierOffset: -4
 # Allow empty lines for includes
 SortIncludes: true
 IncludeBlocks: Preserve
+
+# Expand line columns' ;imit
+ColumnLimit: 150
+
+# Avoid short functions
+AllowShortFunctionsOnASingleLine: None
